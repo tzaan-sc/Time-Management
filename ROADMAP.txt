@@ -1,0 +1,1134 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  PERSONAL TIME OS - DEVELOPMENT ROADMAP                       ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+═════════════════════════════════════════════════════════════════════════════════
+🎯 TỔNG QUAN CHIẾN LƯỢC PHÁT TRIỂN
+═════════════════════════════════════════════════════════════════════════════════
+
+Nguyên tắc cốt lõi:
+- Giai đoạn 1: Desktop MVP KHÔNG có Java backend (SQLite local only)
+- Giai đoạn 2: Mobile từ codebase hiện tại (không thay đổi kiến trúc)
+- Giai đoạn 3: Cloud + Java Backend (Spring Boot + PostgreSQL)
+
+Kiến trúc mở rộng:
+Giai đoạn 1-2:
+  Flutter UI → State Management → Repository → Data Source → SQLite
+
+Giai đoạn 3:
+  Flutter UI → State Management → Repository → Local Data Source (SQLite)
+                                      → Remote Data Source (Spring Boot API)
+                                      → PostgreSQL
+
+═════════════════════════════════════════════════════════════════════════════════
+📱 GIAI ĐOẠN 1: DESKTOP MVP (Windows/macOS)
+═════════════════════════════════════════════════════════════════════════════════
+
+🔴 QUAN TRỌNG: Giai đoạn này KHÔNG sử dụng Java, Spring Boot, PostgreSQL, Supabase
+Chỉ sử dụng: Flutter + Dart + Riverpod + Drift + SQLite
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 1: CẤU HÌNH MÔI TRƯỜNG (Environment Setup)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 1.1: Cài đặt Flutter SDK
+  - Download Flutter SDK từ https://flutter.dev/docs/get-started/install/windows
+  - Extract vào thư mục (ví dụ: C:\flutter)
+  - Thêm Flutter vào PATH: C:\flutter\bin
+  - Chạy lệnh kiểm tra: flutter doctor
+  - Đảm bảo Flutter doctor không có lỗi
+
+[ ] Bước 1.2: Cài đặt Dart SDK
+  - Dart SDK đi kèm với Flutter (không cần cài riêng)
+  - Kiểm tra: dart --version
+
+[ ] Bước 1.3: Cài đặt Visual Studio (cho Windows desktop)
+  - Cài Visual Studio Community 2022
+  - Chọn workload: "Desktop development with C++"
+  - Đảm bảo có MSVC compiler để build Windows
+
+[ ] Bước 1.4: Cài đặt Android Studio (tùy chọn, cho sau này)
+  - Download từ https://developer.android.com/studio
+  - Cài đặt Android SDK
+  - Cài đặt Android Virtual Device (AVD)
+
+[ ] Bước 1.5: Cài đặt IDE
+  - Option A: VS Code + Flutter extension
+  - Option B: Android Studio + Flutter plugin
+  - Option C: IntelliJ IDEA + Flutter plugin
+
+[ ] Bước 1.6: Kiểm tra môi trường
+  - Chạy: flutter doctor -v
+  - Đảm bảo tất cả checkmarks xanh
+  - Fix các warning nếu có
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 2: KHỞI TẠO PROJECT (Project Initialization)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 2.1: Tạo Flutter project
+  - Chạy: flutter create personal_time_os
+  - Chọn platform: Windows (hoặc all platforms)
+  - Vào thư mục project: cd personal_time_os
+
+[ ] Bước 2.2: Cấu hình pubspec.yaml
+  - Thêm dependencies:
+    - flutter_riverpod: ^2.4.9 (State management)
+    - drift: ^2.14.0 (Database)
+    - sqlite3_flutter_libs: ^3.0.0 (SQLite for Flutter)
+    - path_provider: ^2.1.1 (File paths)
+    - path: ^1.8.3 (Path manipulation)
+    - intl: ^0.18.1 (Date/time formatting)
+    - flutter_local_notifications: ^16.3.0 (Local notifications)
+    - table_calendar: ^3.0.9 (Calendar widget)
+    - fl_chart: ^0.66.0 (Charts)
+    - equatable: ^2.0.5 (Value equality)
+
+[ ] Bước 2.3: Chạy flutter pub get
+  - Chạy: flutter pub get
+  - Đảm bảo không có lỗi
+
+[ ] Bước 2.4: Test run cơ bản
+  - Chạy: flutter run -d windows
+  - Đảm bảo app default chạy được
+  - Tắt app (Ctrl+C)
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 3: THIẾT KẾ KIẾN TRÚC (Architecture Design)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 3.1: Tạo cấu trúc thư mục
+  lib/
+  ├── core/
+  │   ├── constants/
+  │   │   └── app_constants.dart
+  │   ├── theme/
+  │   │   └── app_theme.dart
+  │   └── utils/
+  │       └── date_utils.dart
+  ├── data/
+  │   ├── datasources/
+  │   │   └── local/
+  │   │       └── app_database.dart
+  │   ├── models/
+  │   │   ├── task_model.dart
+  │   │   ├── category_model.dart
+  │   │   ├── time_entry_model.dart
+  │   │   ├── habit_model.dart
+  │   │   └── goal_model.dart
+  │   └── repositories/
+  │       ├── task_repository.dart
+  │       ├── category_repository.dart
+  │       ├── time_entry_repository.dart
+  │       ├── habit_repository.dart
+  │       └── goal_repository.dart
+  ├── domain/
+  │   ├── entities/
+  │   │   ├── task.dart
+  │   │   ├── category.dart
+  │   │   ├── time_entry.dart
+  │   │   ├── habit.dart
+  │   │   └── goal.dart
+  │   └── usecases/
+  │       ├── add_task.dart
+  │       ├── get_tasks.dart
+  │       ├── update_task.dart
+  │       ├── delete_task.dart
+  │       └── ...
+  ├── presentation/
+  │   ├── providers/
+  │   │   ├── task_provider.dart
+  │   │   ├── category_provider.dart
+  │   │   ├── time_entry_provider.dart
+  │   │   ├── habit_provider.dart
+  │   │   └── goal_provider.dart
+  │   ├── pages/
+  │   │   ├── dashboard/
+  │   │   │   └── dashboard_page.dart
+  │   │   ├── tasks/
+  │   │   │   └── tasks_page.dart
+  │   │   ├── calendar/
+  │   │   │   └── calendar_page.dart
+  │   │   ├── timer/
+  │   │   │   └── timer_page.dart
+  │   │   ├── habits/
+  │   │   │   └── habits_page.dart
+  │   │   └── statistics/
+  │   │       └── statistics_page.dart
+  │   ├── widgets/
+  │   │   ├── common/
+  │   │   │   ├── custom_button.dart
+  │   │   │   ├── custom_card.dart
+  │   │   │   └── custom_text_field.dart
+  │   │   ├── task/
+  │   │   │   └── task_card.dart
+  │   │   └── timer/
+  │   │       └── timer_display.dart
+  │   └── app.dart
+  └── main.dart
+
+[ ] Bước 3.2: Tạo app_constants.dart
+  - Định nghĩa các constant (app name, version, etc.)
+  - Định nghĩa category types
+  - Định nghĩa priority levels
+
+[ ] Bước 3.3: Tạo app_theme.dart
+  - Định nghĩa light theme
+  - Định nghĩa dark theme
+  - Định nghĩa color palette
+  - Định nghĩa text styles
+
+[ ] Bước 3.4: Tạo date_utils.dart
+  - Helper functions cho date/time
+  - Format dates
+  - Calculate durations
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 4: DATABASE LAYER (Drift + SQLite)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 4.1: Tạo app_database.dart
+  - Định nghĩa Database class với Drift
+  - Setup SQLite connection
+  - Define schema version
+
+[ ] Bước 4.2: Tạo table Categories
+  - id (Int, primary key)
+  - name (Text)
+  - color (Text) - hex color
+  - icon (Text) - icon name
+  - createdAt (DateTime)
+  - updatedAt (DateTime)
+
+[ ] Bước 4.3: Tạo table Tasks
+  - id (Int, primary key)
+  - title (Text)
+  - description (Text, nullable)
+  - categoryId (Int, foreign key)
+  - priority (Text) - low, medium, high
+  - status (Text) - pending, in_progress, completed
+  - estimatedDuration (Int, nullable) - minutes
+  - dueDate (DateTime, nullable)
+  - createdAt (DateTime)
+  - updatedAt (DateTime)
+  - completedAt (DateTime, nullable)
+
+[ ] Bước 4.4: Tạo table TimeEntries
+  - id (Int, primary key)
+  - taskId (Int, foreign key)
+  - startTime (DateTime)
+  - endTime (DateTime, nullable)
+  - duration (Int, nullable) - minutes
+  - isManual (Bool) - manual or automatic
+  - notes (Text, nullable)
+  - createdAt (DateTime)
+  - updatedAt (DateTime)
+
+[ ] Bước 4.5: Tạo table Habits
+  - id (Int, primary key)
+  - name (Text)
+  - description (Text, nullable)
+  - frequency (Text) - daily, weekly
+  - targetCount (Int) - times per period
+  - color (Text)
+  - icon (Text)
+  - createdAt (DateTime)
+  - updatedAt (DateTime)
+
+[ ] Bước 4.6: Tạo table HabitEntries
+  - id (Int, primary key)
+  - habitId (Int, foreign key)
+  - date (DateTime)
+  - completedAt (DateTime, nullable)
+  - notes (Text, nullable)
+  - createdAt (DateTime)
+  - updatedAt (DateTime)
+
+[ ] Bước 4.7: Tạo table Goals
+  - id (Int, primary key)
+  - title (Text)
+  - description (Text, nullable)
+  - targetValue (Int)
+  - currentValue (Int)
+  - unit (Text) - hours, tasks, etc.
+  - deadline (DateTime, nullable)
+  - status (Text) - active, completed, cancelled
+  - createdAt (DateTime)
+  - updatedAt (DateTime)
+  - completedAt (DateTime, nullable)
+
+[ ] Bước 4.8: Tạo table Settings
+  - id (Int, primary key)
+  - key (Text)
+  - value (Text)
+  - updatedAt (DateTime)
+
+[ ] Bước 4.9: Tạo database migrations
+  - Định nghĩa migration steps
+  - Test migration
+  - Handle schema changes
+
+[ ] Bước 4.10: Test database
+  - Tạo test file cho database
+  - Test CRUD operations
+  - Test relationships
+  - Test migrations
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 5: DATA MODELS (Data Layer)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 5.1: Tạo task_model.dart
+  - Convert database table to Dart model
+  - Add fromJson/toJson (cho sau này sync với API)
+  - Add toEntity/fromEntity methods
+
+[ ] Bước 5.2: Tạo category_model.dart
+  - Convert database table to Dart model
+  - Add fromJson/toJson
+  - Add toEntity/fromEntity methods
+
+[ ] Bước 5.3: Tạo time_entry_model.dart
+  - Convert database table to Dart model
+  - Add fromJson/toJson
+  - Add toEntity/fromEntity methods
+
+[ ] Bước 5.4: Tạo habit_model.dart
+  - Convert database table to Dart model
+  - Add fromJson/toJson
+  - Add toEntity/fromEntity methods
+
+[ ] Bước 5.5: Tạo goal_model.dart
+  - Convert database table to Dart model
+  - Add fromJson/toJson
+  - Add toEntity/fromEntity methods
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 6: DOMAIN ENTITIES (Domain Layer)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 6.1: Tạo task.dart (entity)
+  - Định nghĩa Task entity
+  - Business logic riêng
+  - Validation rules
+
+[ ] Bước 6.2: Tạo category.dart (entity)
+  - Định nghĩa Category entity
+  - Business logic riêng
+
+[ ] Bước 6.3: Tạo time_entry.dart (entity)
+  - Định nghĩa TimeEntry entity
+  - Business logic riêng
+  - Calculate duration logic
+
+[ ] Bước 6.4: Tạo habit.dart (entity)
+  - Định nghĩa Habit entity
+  - Business logic riêng
+  - Calculate streak logic
+
+[ ] Bước 6.5: Tạo goal.dart (entity)
+  - Định nghĩa Goal entity
+  - Business logic riêng
+  - Calculate progress logic
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 7: REPOSITORIES (Data Layer)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 7.1: Tạo task_repository.dart
+  - Interface TaskRepository
+  - Implementation TaskRepositoryImpl
+  - Methods: getAll, getById, add, update, delete, getByCategory, getByDate
+  - Use Drift queries
+
+[ ] Bước 7.2: Tạo category_repository.dart
+  - Interface CategoryRepository
+  - Implementation CategoryRepositoryImpl
+  - Methods: getAll, getById, add, update, delete
+  - Use Drift queries
+
+[ ] Bước 7.3: Tạo time_entry_repository.dart
+  - Interface TimeEntryRepository
+  - Implementation TimeEntryRepositoryImpl
+  - Methods: getAll, getByTask, add, update, delete, getByDateRange
+  - Use Drift queries
+
+[ ] Bước 7.4: Tạo habit_repository.dart
+  - Interface HabitRepository
+  - Implementation HabitRepositoryImpl
+  - Methods: getAll, getById, add, update, delete, getHabitEntries
+  - Use Drift queries
+
+[ ] Bước 7.5: Tạo goal_repository.dart
+  - Interface GoalRepository
+  - Implementation GoalRepositoryImpl
+  - Methods: getAll, getById, add, update, delete
+  - Use Drift queries
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 8: USE CASES (Domain Layer)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 8.1: Tạo usecases cho Tasks
+  - AddTaskUseCase
+  - GetTasksUseCase
+  - GetTaskByIdUseCase
+  - UpdateTaskUseCase
+  - DeleteTaskUseCase
+  - GetTasksByDateUseCase
+  - GetTasksByCategoryUseCase
+  - CompleteTaskUseCase
+
+[ ] Bước 8.2: Tạo usecases cho Categories
+  - AddCategoryUseCase
+  - GetCategoriesUseCase
+  - UpdateCategoryUseCase
+  - DeleteCategoryUseCase
+
+[ ] Bước 8.3: Tạo usecases cho TimeEntries
+  - StartTimeEntryUseCase
+  - StopTimeEntryUseCase
+  - GetTimeEntriesUseCase
+  - GetTimeEntriesByTaskUseCase
+  - GetTimeEntriesByDateRangeUseCase
+  - ManualTimeEntryUseCase
+
+[ ] Bước 8.4: Tạo usecases cho Habits
+  - AddHabitUseCase
+  - GetHabitsUseCase
+  - CheckInHabitUseCase
+  - GetHabitStreakUseCase
+  - UpdateHabitUseCase
+  - DeleteHabitUseCase
+
+[ ] Bước 8.5: Tạo usecases cho Goals
+  - AddGoalUseCase
+  - GetGoalsUseCase
+  - UpdateGoalUseCase
+  - DeleteGoalUseCase
+  - UpdateGoalProgressUseCase
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 9: STATE MANAGEMENT (Riverpod Providers)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 9.1: Tạo task_provider.dart
+  - TaskNotifier (StateNotifier)
+  - TaskListProvider
+  - TaskDetailProvider
+  - Actions: add, update, delete, load, complete
+
+[ ] Bước 9.2: Tạo category_provider.dart
+  - CategoryNotifier
+  - CategoryListProvider
+  - Actions: add, update, delete, load
+
+[ ] Bước 9.3: Tạo time_entry_provider.dart
+  - TimeEntryNotifier
+  - ActiveTimeEntryProvider
+  - TimeEntryListProvider
+  - Actions: start, stop, add, update, delete, load
+
+[ ] Bước 9.4: Tạo habit_provider.dart
+  - HabitNotifier
+  - HabitListProvider
+  - HabitDetailProvider
+  - Actions: add, update, delete, checkIn, load
+
+[ ] Bước 9.5: Tạo goal_provider.dart
+  - GoalNotifier
+  - GoalListProvider
+  - Actions: add, update, delete, updateProgress, load
+
+[ ] Bước 9.6: Tạo app_providers.dart
+  - DatabaseProvider
+  - RepositoryProvider
+  - ThemeProvider
+  - SettingsProvider
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 10: UI WIDGETS (Presentation Layer)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 10.1: Tạo common widgets
+  - custom_button.dart
+  - custom_card.dart
+  - custom_text_field.dart
+  - loading_indicator.dart
+  - error_message.dart
+  - empty_state.dart
+
+[ ] Bước 10.2: Tạo task widgets
+  - task_card.dart
+  - task_list.dart
+  - task_form.dart
+  - task_filter.dart
+
+[ ] Bước 10.3: Tạo timer widgets
+  - timer_display.dart
+  - timer_controls.dart
+  - pomodoro_indicator.dart
+
+[ ] Bước 10.4: Tạo calendar widgets
+  - calendar_view.dart
+  - day_view.dart
+  - week_view.dart
+
+[ ] Bước 10.5: Tạo habit widgets
+  - habit_card.dart
+  - habit_streak_display.dart
+  - habit_check_in_button.dart
+
+[ ] Bước 10.6: Tạo statistics widgets
+  - time_chart.dart
+  - category_bar_chart.dart
+  - completion_rate_card.dart
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 11: PAGES (Presentation Layer)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 11.1: Tạo dashboard_page.dart
+  - Hiển thị summary hôm nay
+  - Tasks pending
+  - Time tracked
+  - Habits today
+  - Quick actions
+
+[ ] Bước 11.2: Tạo tasks_page.dart
+  - List tất cả tasks
+  - Filter by category, status, priority
+  - Sort by date, priority
+  - Add/Edit/Delete task dialog
+  - Task detail view
+
+[ ] Bước 11.3: Tạo calendar_page.dart
+  - Calendar view (day/week/month)
+  - Tasks hiển thị trên calendar
+  - Navigate giữa các ngày
+  - Add task vào ngày cụ thể
+
+[ ] Bước 11.4: Tạo timer_page.dart
+  - Focus timer display
+  - Select task to track
+  - Start/Pause/Stop controls
+  - Pomodoro mode
+  - Session history
+
+[ ] Bước 11.5: Tạo habits_page.dart
+  - List tất cả habits
+  - Habit cards với streak
+  - Check-in button
+  - Habit statistics
+  - Add/Edit/Delete habit dialog
+
+[ ] Bước 11.6: Tạo statistics_page.dart
+  - Daily statistics
+  - Weekly statistics
+  - Monthly statistics
+  - Charts (bar, pie)
+  - Time by category
+  - Completion rate
+
+[ ] Bước 11.7: Tạo settings_page.dart
+  - Theme toggle
+  - Notification settings
+  - Timer default duration
+  - Data backup/export
+  - Clear data option
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 12: NAVIGATION & APP STRUCTURE
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 12.1: Tạo app.dart
+  - Setup ProviderScope
+  - Setup theme
+  - Setup navigation
+  - Setup main layout
+
+[ ] Bước 12.2: Tạo navigation structure
+  - Sidebar navigation (desktop)
+  - Bottom navigation (mobile sau này)
+  - Route definitions
+  - Page transitions
+
+[ ] Bước 12.3: Tạo main.dart
+  - Initialize app
+  - Setup database
+  - Run app
+
+[ ] Bước 12.4: Test navigation
+  - Test tất cả routes
+  - Test back navigation
+  - Test state persistence
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 13: LOCAL NOTIFICATIONS
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 13.1: Setup flutter_local_notifications
+  - Initialize notification plugin
+  - Request permissions
+  - Configure notification channels
+
+[ ] Bước 13.2: Tạo notification service
+  - Schedule task reminder
+  - Schedule habit reminder
+  - Timer completion notification
+  - Break reminder notification
+
+[ ] Bước 13.3: Integrate with UI
+  - Add reminder to task form
+  - Add reminder to habit
+  - Timer notification
+  - Test notifications
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 14: TESTING
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 14.1: Unit tests
+  - Test entities
+  - Test use cases
+  - Test repositories (mock database)
+  - Test providers
+
+[ ] Bước 14.2: Widget tests
+  - Test widgets
+  - Test user interactions
+  - Test state changes
+
+[ ] Bước 14.3: Integration tests
+  - Test full flows
+  - Test database operations
+  - Test navigation
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 15: BUILD & PACKAGE (Windows)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 15.1: Build Windows executable
+  - Chạy: flutter build windows --release
+  - Kiểm tra output folder: build/windows/x64/runner/Release/
+
+[ ] Bước 15.2: Test executable
+  - Chạy file .exe từ Release folder
+  - Test tất cả tính năng
+  - Test offline mode
+
+[ ] Bước 15.3: Tạo installer (tùy chọn)
+  - Sử dụng NSIS hoặc Inno Setup
+  - Tạo setup wizard
+  - Test installer
+
+[ ] Bước 15.4: Build macOS (nếu có Mac)
+  - Chạy: flutter build macos --release
+  - Tạo .dmg hoặc .app bundle
+  - Code signing (tùy chọn)
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 16: FINAL TESTING & DEPLOYMENT
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 16.1: User acceptance testing
+  - Test toàn bộ flow
+  - Test edge cases
+  - Test error handling
+  - Test data persistence
+
+[ ] Bước 16.2: Performance testing
+  - Test với nhiều tasks
+  - Test với nhiều time entries
+  - Test database performance
+  - Optimize nếu cần
+
+[ ] Bước 16.3: Bug fixes
+  - Fix bugs tìm được
+  - Re-test sau fixes
+  - Regression testing
+
+[ ] Bước 16.4: Prepare for distribution
+  - Tạo README.md
+  - Tạo user guide
+  - Tạo changelog
+  - Package executable
+
+[ ] Bước 16.5: Distribution
+  - Upload executable (GitHub Releases, Google Drive, etc.)
+  - Share với người dùng
+  - Collect feedback
+
+═════════════════════════════════════════════════════════════════════════════════
+✅ GIAI ĐOẠN 1 HOÀN THÀNH
+═════════════════════════════════════════════════════════════════════════════════
+
+Kết quả Giai đoạn 1:
+- ✅ Desktop app chạy được trên Windows/macOS
+- ✅ Có thể đóng gói thành .exe/.app
+- ✅ Offline-first với SQLite local
+- ✅ Không có Java backend
+- ✅ Kiến trúc sẵn sàng mở rộng cho mobile và cloud
+
+═════════════════════════════════════════════════════════════════════════════════
+📱 GIAI ĐOẠN 2: MOBILE (Android/iOS)
+═════════════════════════════════════════════════════════════════════════════════
+
+🔴 QUAN TRỌNG: KHÔNG thay đổi kiến trúc cốt lõi
+Chỉ thêm: Mobile-specific features, UI optimization, Mobile build
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 17: MOBILE CONFIGURATION
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 17.1: Enable Android platform
+  - Chạy: flutter config --enable-android
+  - Test: flutter run -d android (emulator or device)
+
+[ ] Bước 17.2: Enable iOS platform (Mac only)
+  - Chạy: flutter config --enable-ios
+  - Test: flutter run -d ios (simulator or device)
+
+[ ] Bước 17.3: Cấu hình Android
+  - Setup android/app/build.gradle
+  - Cấu hình app name, package name
+  - Cấu hình permissions (notifications, etc.)
+  - Setup app icons
+
+[ ] Bước 17.4: Cấu hình iOS (Mac only)
+  - Setup ios/Runner/Info.plist
+  - Cấu hình app name, bundle identifier
+  - Cấu hình permissions
+  - Setup app icons
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 18: MOBILE UI OPTIMIZATION
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 18.1: Responsive design
+  - Adapt layout cho mobile screens
+  - Touch-friendly controls
+  - Gesture support (swipe, pinch)
+
+[ ] Bước 18.2: Mobile navigation
+  - Thay sidebar bằng bottom navigation
+  - Drawer navigation
+  - Back button handling
+
+[ ] Bước 18.3: Mobile-specific widgets
+  - Mobile-optimized dashboard
+  - Quick actions FAB
+  - Swipe actions for list items
+
+[ ] Bước 18.4: Platform-specific features
+  - Android: Material Design 3
+  - iOS: Cupertino design
+  - Platform-adaptive widgets
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 19: MOBILE-SPECIFIC FEATURES
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 19.1: Push notifications
+  - Setup Firebase Cloud Messaging (FCM)
+  - Handle push notifications
+  - Notification categories
+
+[ ] Bước 19.2: Background time tracking
+  - Setup background fetch
+  - Work Manager integration
+  - Background timer
+
+[ ] Bước 19.3: Widgets
+  - Android: Home screen widgets
+  - iOS: Home screen widgets
+  - Quick actions from widget
+
+[ ] Bước 19.4: On-the-go task entry
+  - Quick add from notification
+  - Voice input (optional)
+  - Quick templates
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 20: MOBILE BUILD & DEPLOYMENT
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 20.1: Build Android APK
+  - Chạy: flutter build apk --release
+  - Test APK trên device
+
+[ ] Bước 20.2: Build Android App Bundle (Play Store)
+  - Chạy: flutter build appbundle --release
+  - Sign app bundle
+  - Upload to Google Play Console
+
+[ ] Bước 20.3: Build iOS (Mac only)
+  - Chạy: flutter build ios --release
+  - Archive trong Xcode
+  - Upload to App Store Connect
+
+[ ] Bước 20.4: Test on real devices
+  - Test trên Android phones/tablets
+  - Test trên iOS phones/tablets
+  - Test offline mode
+
+═════════════════════════════════════════════════════════════════════════════════
+✅ GIAI ĐOẠN 2 HOÀN THÀNH
+═════════════════════════════════════════════════════════════════════════════════
+
+Kết quả Giai đoạn 2:
+- ✅ Android app available trên Google Play
+- ✅ iOS app available trên App Store
+- ✅ Cùng codebase với desktop
+- ✅ Không thay đổi kiến trúc cốt lõi
+
+═════════════════════════════════════════════════════════════════════════════════
+☁️ GIAI ĐOẠN 3: CLOUD + JAVA BACKEND
+═════════════════════════════════════════════════════════════════════════════════
+
+🔴 QUAN TRỌNG: Chỉ bắt đầu SAU KHI desktop/mobile local đã ổn định
+Thêm: Java Spring Boot backend, PostgreSQL, Cloud sync
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 21: JAVA BACKEND SETUP
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 21.1: Cài đặt Java Development Kit (JDK)
+  - Download JDK 17 hoặc 21 từ Oracle hoặc OpenJDK
+  - Setup JAVA_HOME environment variable
+  - Kiểm tra: java -version
+
+[ ] Bước 21.2: Cài đặt Apache Maven
+  - Download Maven từ https://maven.apache.org/
+  - Setup MAVEN_HOME environment variable
+  - Kiểm tra: mvn -version
+
+[ ] Bước 21.3: Cài đặt PostgreSQL
+  - Download PostgreSQL từ https://www.postgresql.org/
+  - Install PostgreSQL server
+  - Setup database và user
+  - Kiểm tra connection
+
+[ ] Bước 21.4: Tạo Spring Boot project
+  - Sử dụng Spring Initializr: https://start.spring.io/
+  - Dependencies: Spring Web, Spring Data JPA, PostgreSQL, Spring Security, Validation
+  - Download và extract project
+
+[ ] Bước 21.5: Cấu hình application.properties
+  - Database connection (PostgreSQL)
+  - JPA/Hibernate settings
+  - Server port
+  - Logging configuration
+
+[ ] Bước 21.6: Test backend setup
+  - Chạy: mvn spring-boot:run
+  - Kiểm tra server start
+  - Test basic endpoint
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 22: DATABASE SCHEMA (PostgreSQL)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 22.1: Tạo database
+  - CREATE DATABASE personal_time_os;
+
+[ ] Bước 22.2: Tạo tables (JPA Entities)
+  - Users table (id, email, password, createdAt, updatedAt)
+  - Categories table
+  - Tasks table
+  - TimeEntries table
+  - Habits table
+  - HabitEntries table
+  - Goals table
+  - Settings table
+
+[ ] Bước 22.3: Setup JPA repositories
+  - UserRepository
+  - CategoryRepository
+  - TaskRepository
+  - TimeEntryRepository
+  - HabitRepository
+  - GoalRepository
+
+[ ] Bước 22.4: Setup relationships
+  - User → Categories (One-to-Many)
+  - User → Tasks (One-to-Many)
+  - Task → TimeEntries (One-to-Many)
+  - Task → Category (Many-to-One)
+  - User → Habits (One-to-Many)
+  - Habit → HabitEntries (One-to-Many)
+  - User → Goals (One-to-Many)
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 23: AUTHENTICATION & AUTHORIZATION
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 23.1: Setup Spring Security
+  - Security configuration
+  - Password encoding (BCrypt)
+  - JWT token setup
+
+[ ] Bước 23.2: Authentication endpoints
+  - POST /api/auth/register
+  - POST /api/auth/login
+  - POST /api/auth/refresh
+  - POST /api/auth/logout
+
+[ ] Bước 23.3: JWT implementation
+  - JWT token generation
+  - JWT token validation
+  - JWT filter for protected routes
+
+[ ] Bước 23.4: Authorization
+  - Role-based access control (RBAC)
+  - User ownership validation
+  - Protected endpoints
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 24: REST API ENDPOINTS
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 24.1: Categories API
+  - GET /api/categories
+  - GET /api/categories/{id}
+  - POST /api/categories
+  - PUT /api/categories/{id}
+  - DELETE /api/categories/{id}
+
+[ ] Bước 24.2: Tasks API
+  - GET /api/tasks
+  - GET /api/tasks/{id}
+  - POST /api/tasks
+  - PUT /api/tasks/{id}
+  - DELETE /api/tasks/{id}
+  - PATCH /api/tasks/{id}/complete
+
+[ ] Bước 24.3: TimeEntries API
+  - GET /api/time-entries
+  - GET /api/time-entries/{id}
+  - POST /api/time-entries
+  - PUT /api/time-entries/{id}
+  - DELETE /api/time-entries/{id}
+  - GET /api/time-entries/by-task/{taskId}
+
+[ ] Bước 24.4: Habits API
+  - GET /api/habits
+  - GET /api/habits/{id}
+  - POST /api/habits
+  - PUT /api/habits/{id}
+  - DELETE /api/habits/{id}
+  - POST /api/habits/{id}/check-in
+
+[ ] Bước 24.5: Goals API
+  - GET /api/goals
+  - GET /api/goals/{id}
+  - POST /api/goals
+  - PUT /api/goals/{id}
+  - DELETE /api/goals/{id}
+  - PATCH /api/goals/{id}/progress
+
+[ ] Bước 24.6: Sync API
+  - POST /api/sync/push
+  - GET /api/sync/pull
+  - GET /api/sync/last-sync
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 25: DATA VALIDATION & ERROR HANDLING
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 25.1: Request validation
+  - DTO classes với validation annotations
+  - Custom validators
+  - Validation error responses
+
+[ ] Bước 25.2: Exception handling
+  - Global exception handler
+  - Custom exceptions
+  - Consistent error responses
+
+[ ] Bước 25.3: Logging
+  - Request/Response logging
+  - Error logging
+  - Audit logging
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 26: FLUTTER INTEGRATION (Remote Data Source)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 26.1: Thêm HTTP client dependency
+  - Thêm http package vào pubspec.yaml
+  - Chạy flutter pub get
+
+[ ] Bước 26.2: Tạo API service
+  - ApiService class
+  - Base URL configuration
+  - JWT token management
+  - Request/Response interceptors
+
+[ ] Bước 26.3: Tạo Remote Data Sources
+  - TaskRemoteDataSource
+  - CategoryRemoteDataSource
+  - TimeEntryRemoteDataSource
+  - HabitRemoteDataSource
+  - GoalRemoteDataSource
+
+[ ] Bước 26.4: Update Repositories
+  - Thêm Remote Data Source vào repositories
+  - Implement sync logic (local first, then sync with remote)
+  - Handle offline mode
+  - Handle conflict resolution
+
+[ ] Bước 26.5: Tạo Sync Service
+  - SyncService class
+  - Push local changes to server
+  - Pull remote changes to local
+  - Merge strategy
+  - Conflict resolution
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 27: AUTHENTICATION IN FLUTTER
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 27.1: Tạo Auth Repository
+  - AuthRepository interface
+  - AuthRepositoryImpl (local + remote)
+  - Login, Register, Logout use cases
+
+[ ] Bước 27.2: Tạo Auth Providers
+  - AuthNotifier
+  - AuthStateProvider
+  - Token management
+
+[ ] Bước 27.3: Tạo Auth UI
+  - Login page
+  - Register page
+  - Forgot password page
+  - Profile page
+
+[ ] Bước 27.4: Protect routes
+  - Auth guard for protected pages
+  - Redirect to login if not authenticated
+  - Auto-login on app start
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 28: SYNC LOGIC & CONFLICT RESOLUTION
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 28.1: Implement sync strategy
+  - Last-write-wins
+  - Version-based conflict resolution
+  - Manual conflict resolution UI
+
+[ ] Bước 28.2: Offline queue
+  - Queue operations when offline
+  - Sync when online
+  - Handle sync failures
+
+[ ] Bước 28.3: Background sync
+  - Periodic sync
+  - Sync on app start
+  - Sync on data change
+
+[ ] Bước 28.4: Sync status UI
+  - Show sync status
+  - Show last sync time
+  - Manual sync button
+  - Sync error handling
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 29: BACKUP & RESTORE
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 29.1: Server-side backup
+  - Database backup automation
+  - S3 storage integration (optional)
+  - Backup retention policy
+
+[ ] Bước 29.2: Client-side backup
+  - Export local data
+  - Import data
+  - Restore from backup
+
+[ ] Bước 29.3: Backup UI
+  - Backup settings page
+  - Manual backup button
+  - Restore functionality
+
+═════════════════════════════════════════════════════════════════════════════════
+PHẦN 30: TESTING & DEPLOYMENT
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] Bước 30.1: Backend testing
+  - Unit tests for services
+  - Integration tests for API
+  - Load testing
+
+[ ] Bước 30.2: End-to-end testing
+  - Test sync flow
+  - Test offline mode
+  - Test conflict resolution
+
+[ ] Bước 30.3: Deploy backend
+  - Deploy to cloud (AWS, GCP, Azure, or Heroku)
+  - Setup domain & SSL
+  - Setup database backup
+  - Monitor performance
+
+[ ] Bước 30.4: Update Flutter apps
+  - Add API base URL configuration
+  - Build new versions
+  - Submit to stores
+  - Rollout update
+
+═════════════════════════════════════════════════════════════════════════════════
+✅ GIAI ĐOẠN 3 HOÀN THÀNH
+═════════════════════════════════════════════════════════════════════════════════
+
+Kết quả Giai đoạn 3:
+- ✅ Java Spring Boot backend running on cloud
+- ✅ PostgreSQL database
+- ✅ Authentication & Authorization
+- ✅ Cloud sync giữa các thiết bị
+- ✅ Offline mode vẫn hoạt động
+- ✅ Data backup & restore
+- ✅ Không phải viết lại UI và business logic
+
+═════════════════════════════════════════════════════════════════════════════════
+🎯 TỔNG KẾT
+═════════════════════════════════════════════════════════════════════════════════
+
+Kiến trúc cuối cùng:
+┌─────────────────────────────────────────────────────────────┐
+│                     Flutter App                              │
+│  (Desktop Windows/macOS + Android + iOS)                    │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+   State Management          Repository
+   (Riverpod)                 (Pattern)
+        │                         │
+        └────────────┬────────────┘
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+  Local Data Source        Remote Data Source
+  (Drift + SQLite)        (Spring Boot API)
+        │                         │
+        └────────────┬────────────┘
+                     │
+              PostgreSQL Database
+              (Cloud-hosted)
+
+Lợi ích của kiến trúc này:
+✅ Giai đoạn 1: Desktop MVP hoạt động độc lập với SQLite
+✅ Giai đoạn 2: Mobile cùng codebase, không viết lại
+✅ Giai đoạn 3: Thêm backend mà không sửa UI/business logic
+✅ Offline-first: Vẫn hoạt động khi không có Internet
+✅ Scalable: Dễ dàng thêm tính năng mới
+✅ Maintainable: Code tách rõ layers
+
+═════════════════════════════════════════════════════════════════════════════════
+Last updated: 2026-09-30
+Project: Personal Time OS
+Strategy: Desktop MVP → Mobile → Cloud Backend
