@@ -1,0 +1,279 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  PERSONAL TIME OS - FEATURE LIST                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+═════════════════════════════════════════════════════════════════════════════════
+📱 PHASE 1: LAPTOP MVP (Windows/macOS)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] SETUP & ARCHITECTURE - CÀI ĐẶT & KIẾN TRÚC
+  [ ] Initialize Flutter project - Khởi tạo dự án Flutter
+  [ ] Setup Drift database (SQLite) - Cài đặt database Drift (SQLite)
+  [ ] Setup Riverpod state management - Cài đặt quản lý state Riverpod
+  [ ] Configure project structure - Cấu hình cấu trúc dự án
+  [ ] Setup local notifications - Cài đặt thông báo local
+
+[ ] DASHBOARD - MÀN HÌNH CHÍNH
+  [ ] Today's schedule view - Xem lịch trình hôm nay
+  [ ] Quick task overview - Tổng quan nhanh công việc
+  [ ] Daily statistics summary - Tóm tắt thống kê ngày
+  [ ] Focus timer widget - Widget đồng hồ tập trung
+  [ ] Calendar mini-view - Lịch mini
+
+[ ] TASKS MANAGEMENT - QUẢN LÝ CÔNG VIỆC
+  [ ] Create task - Tạo công việc
+  [ ] Edit task - Sửa công việc
+  [ ] Delete task - Xóa công việc
+  [ ] Mark task as complete - Đánh dấu hoàn thành
+  [ ] Task categories (Study, Work, Personal, Entertainment) - Danh mục công việc (Học tập, Công việc, Cá nhân, Giải trí)
+  [ ] Task priority levels - Mức độ ưu tiên công việc
+  [ ] Task notes/description - Ghi chú/mô tả công việc
+  [ ] Task tags - Thẻ công việc
+
+[ ] CALENDAR - LỊCH
+  [ ] Daily view - Xem theo ngày
+  [ ] Weekly view - Xem theo tuần
+  [ ] Monthly view - Xem theo tháng
+  [ ] Navigate between dates - Điều hướng giữa các ngày
+  [ ] View tasks by date - Xem công việc theo ngày
+  [ ] Add task to specific date - Thêm công việc vào ngày cụ thể
+
+[ ] FOCUS TIMER - ĐỒNG HỒ TẬP TRUNG
+  [ ] Start timer for task - Bắt đầu đếm giờ cho công việc
+  [ ] Pause timer - Tạm dừng đồng hồ
+  [ ] Stop timer - Dừng đồng hồ
+  [ ] Pomodoro mode (25/5) - Chế độ Pomodoro (25/5)
+  [ ] Custom duration - Thời lượng tùy chỉnh
+  [ ] Timer notification - Thông báo đồng hồ
+  [ ] Timer sound/alert - Âm thanh/cảnh báo đồng hồ
+  [ ] Break reminder - Nhắc nghỉ ngơi
+
+[ ] DAILY STATISTICS - THỐNG KÊ NGÀY
+  [ ] Total time tracked today - Tổng thời gian theo dõi hôm nay
+  [ ] Time by category - Thời gian theo danh mục
+  [ ] Task completion rate - Tỷ lệ hoàn thành công việc
+  [ ] Tasks completed vs planned - Công việc hoàn thành vs kế hoạch
+  [ ] Visual charts (bar/pie) - Biểu đồ trực quan (thanh/tròn)
+
+[ ] SETTINGS - CÀI ĐẶT
+  [ ] Theme toggle (light/dark) - Chuyển đổi giao diện (sáng/tối)
+  [ ] Notification settings - Cài đặt thông báo
+  [ ] Timer default duration - Thời lượng mặc định đồng hồ
+  [ ] Data backup/export - Sao lưu/xuất dữ liệu
+  [ ] Clear data option - Tùy chọn xóa dữ liệu
+
+═════════════════════════════════════════════════════════════════════════════════
+📊 PHASE 2: SMART TIME MANAGEMENT
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] TIME ESTIMATION - ƯỚC LƯỢNG THỜI GIAN
+  [ ] Add estimated duration to task - Thêm thời lượng ước lượng cho công việc
+  [ ] Show estimated vs actual time - Hiển thị ước lượng vs thực tế
+  [ ] Estimation history - Lịch sử ước lượng
+  [ ] Suggest duration based on history - Gợi ý thời lượng dựa trên lịch sử
+
+[ ] SMART SCHEDULING - LỊCH TRÌNH THÔNG MINH
+  [ ] Auto-schedule tasks based on duration - Tự động xếp lịch dựa trên thời lượng
+  [ ] Find available time slots - Tìm khoảng thời gian trống
+  [ ] Schedule conflicts detection - Phát hiện xung đột lịch trình
+  [ ] Drag & drop rescheduling - Kéo thả để đổi lịch
+
+[ ] TIME TRACKING - THEO DÕI THỜI GIAN
+  [ ] Manual time entry - Nhập thời gian thủ công
+  [ ] Automatic time tracking - Theo dõi thời gian tự động
+  [ ] Edit tracked time - Sửa thời gian đã theo dõi
+  [ ] Time log view - Xem nhật ký thời gian
+  [ ] Time by task - Thời gian theo công việc
+
+[ ] HABIT TRACKING - THEO DÕI THÓI QUEN
+  [ ] Create habit - Tạo thói quen
+  [ ] Daily habit check-in - Check-in thói quen hàng ngày
+  [ ] Habit streak counter - Đếm chuỗi thói quen
+  [ ] Habit reminders - Nhắc thói quen
+  [ ] Habit statistics - Thống kê thói quen
+
+[ ] GOALS - MỤC TIÊU
+  [ ] Create goal - Tạo mục tiêu
+  [ ] Link tasks to goals - Liên kết công việc với mục tiêu
+  [ ] Goal progress tracking - Theo dõi tiến độ mục tiêu
+  [ ] Goal deadline - Hạn mục tiêu
+  [ ] Goal completion celebration - Chúc mừng hoàn thành mục tiêu
+
+[ ] REMINDERS - NHẮC NHỞ
+  [ ] Task reminder - Nhắc công việc
+  [ ] Custom reminder time - Thời gian nhắc tùy chỉnh
+  [ ] Reminder snooze - Hoãn nhắc nhở
+  [ ] Multiple reminders per task - Nhiều nhắc nhở cho mỗi công việc
+  [ ] Reminder sounds - Âm thanh nhắc nhở
+
+[ ] FOCUS MODE - CHẾ ĐỘ TẬP TRUNG
+  [ ] Distraction blocker (optional) - Chặn xao nhãng (tùy chọn)
+  [ ] Focus session planning - Lên kế hoạch phiên tập trung
+  [ ] Focus statistics - Thống kê tập trung
+  [ ] Break recommendations - Gợi ý nghỉ ngơi
+
+[ ] DAILY REVIEW - ĐÁNH GIÁ NGÀY
+  [ ] End-of-day summary - Tóm tắt cuối ngày
+  [ ] What went well - Điều gì tốt
+  [ ] What to improve - Cần cải thiện gì
+  [ ] Tomorrow's planning - Lập kế hoạch ngày mai
+  [ ] Review history - Lịch sử đánh giá
+
+═════════════════════════════════════════════════════════════════════════════════
+🧠 PHASE 3: TIME INTELLIGENCE
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] ADVANCED STATISTICS - THỐNG KÊ NÂNG CAO
+  [ ] Weekly/monthly/yearly reports - Báo cáo tuần/tháng/năm
+  [ ] Productivity trends - Xu hướng năng suất
+  [ ] Peak productivity hours analysis - Phân tích giờ cao điểm năng suất
+  [ ] Category distribution over time - Phân bố danh mục theo thời gian
+  [ ] Completion rate trends - Xu hướng tỷ lệ hoàn thành
+  [ ] Time estimation accuracy analysis - Phân tích độ chính xác ước lượng thời gian
+
+[ ] INSIGHTS & ANALYTICS - SỰ THẤU HIỂU & PHÂN TÍCH
+  [ ] Best time of day for different task types - Thời điểm tốt nhất trong ngày cho các loại công việc khác nhau
+  [ ] Average task completion time by category - Thời gian hoàn thành trung bình theo danh mục
+  [ ] Estimation vs actual variance - Chênh lệch ước lượng vs thực tế
+  [ ] Task patterns identification - Nhận diện mẫu công việc
+  [ ] Productivity score - Điểm năng suất
+  [ ] Work-life balance indicator - Chỉ số cân bằng công việc-cuộc sống
+
+[ ] SMART SUGGESTIONS - GỢI Ý THÔNG MINH
+  [ ] Suggest optimal task scheduling - Gợi ý xếp lịch công việc tối ưu
+  [ ] Recommend breaks - Gợi ý nghỉ ngơi
+  [ ] Suggest realistic durations - Gợi ý thời lượng thực tế
+  [ ] Identify time-wasting activities - Nhận diện hoạt động lãng phí thời gian
+  [ ] Suggest habit improvements - Gợi ý cải thiện thói quen
+
+[ ] REPORTS - BÁO CÁO
+  [ ] Export daily report - Xuất báo cáo ngày
+  [ ] Export weekly report - Xuất báo cáo tuần
+  [ ] Export monthly report - Xuất báo cáo tháng
+  [ ] PDF report generation - Tạo báo cáo PDF
+  [ ] CSV data export - Xuất dữ liệu CSV
+  [ ] Custom report builder - Trình tạo báo cáo tùy chỉnh
+
+[ ] AI ASSISTANT (Future) - TRỢ LÝ AI (Tương lai)
+  [ ] Natural language task creation - Tạo công việc bằng ngôn ngữ tự nhiên
+  [ ] Smart task categorization - Phân loại công việc thông minh
+  [ ] Productivity tips - Mẹo năng suất
+  [ ] Schedule optimization suggestions - Gợi ý tối ưu hóa lịch trình
+  [ ] Personalized recommendations - Gợi ý cá nhân hóa
+
+═════════════════════════════════════════════════════════════════════════════════
+📱 PHASE 4: MOBILE (Android/iOS)
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] MOBILE ADAPTATION - THÍCH ỨNG MOBILE
+  [ ] Android build configuration - Cấu hình build Android
+  [ ] iOS build configuration - Cấu hình build iOS
+  [ ] Mobile UI optimization - Tối ưu UI mobile
+  [ ] Touch-friendly controls - Điều khiển thân thiện với cảm ứng
+  [ ] Gesture support - Hỗ trợ cử chỉ
+  [ ] Offline mode support - Hỗ trợ chế độ offline
+
+[ ] MOBILE-SPECIFIC FEATURES - TÍNH NĂNG ĐẶC BIỆT MOBILE
+  [ ] Push notifications - Thông báo đẩy
+  [ ] Background time tracking - Theo dõi thời gian nền
+  [ ] Widget support - Hỗ trợ widget
+  [ ] Quick actions - Hành động nhanh
+  [ ] Mobile-optimized dashboard - Dashboard tối ưu cho mobile
+  [ ] On-the-go task entry - Nhập công việc khi di chuyển
+
+[ ] SYNC & BACKUP - ĐỒNG BỘ & SAO LƯU
+  [ ] Cloud sync setup - Cài đặt đồng bộ cloud
+  [ ] Account system - Hệ thống tài khoản
+  [ ] Cross-device sync - Đồng bộ đa thiết bị
+  [ ] Data backup - Sao lưu dữ liệu
+  [ ] Conflict resolution - Giải quyết xung đột
+  [ ] Offline sync queue - Hàng đợi đồng bộ offline
+
+═════════════════════════════════════════════════════════════════════════════════
+🔧 TECHNICAL REQUIREMENTS
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] CORE TECHNOLOGY - CÔNG NGHỆ CỐT LÕI
+  [ ] Flutter framework - Framework Flutter
+  [ ] Dart language - Ngôn ngữ Dart
+  [ ] Drift database (SQLite) - Database Drift (SQLite)
+  [ ] Riverpod state management - Quản lý state Riverpod
+  [ ] Local notifications plugin - Plugin thông báo local
+
+[ ] DATABASE SCHEMA - CẤU TRÚC DATABASE
+  [ ] Tasks table - Bảng công việc
+  [ ] Categories table - Bảng danh mục
+  [ ] Time entries table - Bảng mục thời gian
+  [ ] Habits table - Bảng thói quen
+  [ ] Goals table - Bảng mục tiêu
+  [ ] Reminders table - Bảng nhắc nhở
+  [ ] Settings table - Bảng cài đặt
+  [ ] Statistics cache table - Bảng cache thống kê
+
+[ ] CODE QUALITY - CHẤT LƯỢNG CODE
+  [ ] Code documentation - Tài liệu code
+  [ ] Unit tests - Tests đơn vị
+  [ ] Widget tests - Tests widget
+  [ ] Integration tests - Tests tích hợp
+  [ ] Error handling - Xử lý lỗi
+  [ ] Logging system - Hệ thống logging
+
+[ ] DESKTOP PACKAGING - ĐÓNG GÓI DESKTOP
+  [ ] Windows executable - File thực thi Windows
+  [ ] macOS application - Ứng dụng macOS
+  [ ] Installer generation - Tạo bộ cài đặt
+  [ ] Auto-update mechanism - Cơ chế tự động cập nhật
+  [ ] Code signing (optional) - Ký code (tùy chọn)
+
+═════════════════════════════════════════════════════════════════════════════════
+📝 DOCUMENTATION
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] USER DOCUMENTATION - TÀI LIỆU NGƯỜI DÙNG
+  [ ] User guide - Hướng dẫn sử dụng
+  [ ] Feature walkthrough - Hướng dẫn tính năng
+  [ ] FAQ - Câu hỏi thường gặp
+  [ ] Video tutorials (optional) - Video hướng dẫn (tùy chọn)
+
+[ ] DEVELOPER DOCUMENTATION - TÀI LIỆU NHÀ PHÁT TRIỂN
+  [ ] Architecture overview - Tổng quan kiến trúc
+  [ ] Database schema documentation - Tài liệu cấu trúc database
+  [ ] API documentation - Tài liệu API
+  [ ] Contribution guide - Hướng dẫn đóng góp
+  [ ] Setup instructions - Hướng dẫn cài đặt
+
+═════════════════════════════════════════════════════════════════════════════════
+🎯 MILESTONES
+═════════════════════════════════════════════════════════════════════════════════
+
+[ ] MILESTONE 1: Core MVP - CỐT LÕI MVP
+  - Basic task management - Quản lý công việc cơ bản
+  - Calendar view - Xem lịch
+  - Focus timer - Đồng hồ tập trung
+  - Daily statistics - Thống kê ngày
+  - Desktop build - Build desktop
+
+[ ] MILESTONE 2: Enhanced Features - TÍNH NĂNG NÂNG CAO
+  - Time estimation - Ước lượng thời gian
+  - Habit tracking - Theo dõi thói quen
+  - Goals - Mục tiêu
+  - Reminders - Nhắc nhở
+  - Focus mode - Chế độ tập trung
+
+[ ] MILESTONE 3: Intelligence - TRÍ TUỆ
+  - Advanced analytics - Phân tích nâng cao
+  - Insights - Sự thấu hiểu
+  - Smart suggestions - Gợi ý thông minh
+  - Reports - Báo cáo
+
+[ ] MILESTONE 4: Mobile - MOBILE
+  - Android app - Ứng dụng Android
+  - iOS app - Ứng dụng iOS
+  - Cloud sync - Đồng bộ cloud
+  - Cross-platform support - Hỗ trợ đa nền tảng
+
+═════════════════════════════════════════════════════════════════════════════════
+Last updated: 2026-09-30
+Project: Personal Time OS
+Tech Stack: Flutter + Drift + Riverpod
+Target: Desktop → Mobile
